@@ -10,12 +10,19 @@
 
 <body>
     <div class="container">
-        <audio id="audio" src="song.mp3" controls></audio>
         <div id="lyrics-container">
             <div id="lyrics"></div>
         </div>
+        <div class="dropdown">
+            <button class="dropbtn">Songs</button>
+            <div class="dropdown-content" id="song-list">
+                <!-- Songs Buttons Auto Generated Here, do not delete -->
+            </div>
+        </div>
+        <audio id="audio" src="songs/frozen - let it go.mp3" controls></audio>
     </div>
     <script src="script.js"></script>
+    <script>activateAudioOnMouseMove();</script>
 </body>
 
 </html>
