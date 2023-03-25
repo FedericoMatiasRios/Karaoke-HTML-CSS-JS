@@ -21,6 +21,7 @@ fetch('./songs/')
       const button = document.createElement('button');
       button.textContent = songUrl.replace('.mp3', '');
       button.onclick = () => switchSong(songUrl);
+      console.log("songurl: " + songUrl)
       songListDropdown.appendChild(button);
     }
 
@@ -58,13 +59,12 @@ function switchSong(songFilename) {
         const currentSrt = srt.find(item => item.start <= currentTime && item.end >= currentTime);
         if (currentSrt) {
           const currentIndex = srt.findIndex(item => item.id === currentSrt.id);
-          const nextLyrics = srt.slice(currentIndex + 1, currentIndex + 4).map(item => item.text);
-          const currentAndNextLyrics = [currentSrt.text, ...nextLyrics].join(' ');
           lyrics.innerHTML = srt.map((item, index) => `<div class="lyric ${index === currentIndex ? 'active' : ''}">${item.text.replace(/<br>/g, '')}</div>`).join('');
           const lyricsContainer = document.getElementById('lyrics-container');
           const currentLyric = lyrics.querySelector('.lyric.active');
           const scrollY = currentLyric.offsetTop - lyricsContainer.offsetHeight / 2 + currentLyric.offsetHeight / 2;
-          lyricsContainer.scrollTo({ top: scrollY, behavior: 'smooth' });
+          const behavior = audio.paused ? 'instant' : 'smooth';
+          lyricsContainer.scrollTo({ top: scrollY, behavior });
         }
       }, 100);
     });
