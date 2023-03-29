@@ -104,7 +104,7 @@ function switchSong(songFilename) {
     .then(response => {
       if (fileType === 'txt') {
         // Render the text file content in the template
-        lyrics.innerHTML = response.split('\n').map(line => `<div class="lyric">${line.trim()}</div>`).join('');
+        lyrics.innerHTML = '<br><br><br><br>' + response.split('\n').map(line => `<div class="lyric">${line.trim()}</div>`).join('');
         
         // synchronize the scrolling with audio time
         intervalId = setInterval(() => {
