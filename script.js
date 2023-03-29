@@ -1,4 +1,6 @@
 const songUrls = {};
+let songList;
+
 
 fetch('./songs/')
   .then(response => response.text())
@@ -6,6 +8,8 @@ fetch('./songs/')
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     const links = doc.querySelectorAll('a');
+
+    console.log(links); // add this line to check if links has any elements
 
     for (const link of links) {
       const fileName = link.href.split('/').pop();
@@ -15,6 +19,10 @@ fetch('./songs/')
         songUrls[decodeURIComponent(fileName)] = { srt: decodeURIComponent(srtFileName), txt: decodeURIComponent(txtFileName) };
       }
     }
+    console.log('first  ')
+    console.log(Object.keys(songUrls));
+    songList = Object.keys(songUrls);
+    console.log(songUrls); // add this line to check if songUrls is being populated correctly
 
     // Add buttons to the song list dropdown
     const songListDropdown = document.getElementById('song-list');
@@ -44,9 +52,11 @@ function switchSong(songFilename) {
   // clear the previous interval
   clearInterval(intervalId);
 
-  const srtFilename = songUrls[songFilename].srt;
-  const srtUrl = `songs/${srtFilename}`;
-  const txtUrl = `songs/${songFilename.replace('.mp3', '.txt')}`;
+  const songInfo = songUrls[songFilename];
+  if (songInfo && songInfo.srt) {
+    const srtFilename = songInfo.srt;
+    const srtUrl = `songs/${srtFilename}`;
+    const txtUrl = `songs/${songFilename.replace('.mp3', '.txt')}`;
 
   let url;
   let fileType;
@@ -111,7 +121,26 @@ function switchSong(songFilename) {
       }
     })
     .catch(error => console.error(error));
+  } else {
+    // handle the error here, e.g. show an error message
+    console.error(`Error: no srt file found for song "${songFilename}"`);
+  }
 }
+
+
+let currentSongIndex = 0;
+
+function switchToNextSong() {
+  currentSongIndex = (currentSongIndex + 1) % songList.length;
+  console.log('second')
+  console.log(songList)
+  if (songList.length > 0) {
+    switchSong(songList[currentSongIndex]);
+    document.getElementById('audio').autoplay = true; // autoplay the audio player
+  }
+}
+const audio = document.getElementById('audio');
+audio.addEventListener('ended', switchToNextSong);
 
 function convertSrtTimeToSeconds(time) {
   const [hours, minutes, seconds] = time.split(':').map(parseFloat);
