@@ -1,6 +1,7 @@
 html {
     scrollbar-width: none;
     -ms-overflow-style: none;
+    overflow-x: hidden;
 }
 
 html::-webkit-scrollbar {
@@ -86,6 +87,9 @@ audio.show-controls::-webkit-media-controls {
     font-size: 16px;
     border: none;
     cursor: pointer;
+    position: inherit;
+    z-index: 1000;
+    width: 220px;
 }
 
 /* Style the dropdown content (hidden by default) */
@@ -94,6 +98,7 @@ audio.show-controls::-webkit-media-controls {
     position: absolute;
     z-index: 1;
     white-space: nowrap;
+
 }
 
 /* Show the dropdown menu on hover */
@@ -102,7 +107,7 @@ audio.show-controls::-webkit-media-controls {
 }
 
 /* Style the dropdown links */
-.dropdown-content button {
+.dropdown-content li {
     cursor: pointer;
     color: black;
     padding: 12px 16px;
@@ -112,15 +117,16 @@ audio.show-controls::-webkit-media-controls {
     border: none;
     width: 100%;
     text-align: left;
+    margin-left: -40px;
 }
 
 /* Change the background color of dropdown links on hover */
-.dropdown-content button:hover {
+.dropdown-content li:hover {
     background-color: #f1f1f1;
 }
 
 /* Style the active dropdown link */
-.dropdown-content button.active {
+.dropdown-content li.active {
     background-color: #ff6347;
     color: white;
 }
@@ -128,11 +134,96 @@ audio.show-controls::-webkit-media-controls {
 .dropdown {
     position: absolute;
     top: 10;
-    left: 10;
+    left: -20;
     transition: opacity 0s ease-in-out;
 }
 
 .dropdown.hide-controls {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+}
+
+.next {
+    position: absolute;
+    right: 20;
+    width: 60px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.prev {
+    position: absolute;
+    left: 20;
+    width: 60px;
+    transform: scaleX(-1);
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* Hide the prev and next buttons by default */
+.prev,
+.next {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Show the prev and next buttons when their parent element is hovered */
+#audio-wrapper:hover .prev,
+#audio-wrapper:hover .next {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide the prev and next buttons after 3 seconds */
+.hide-controls.prev,
+.hide-controls.next {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Show the prev and next buttons when their parent element is hovered */
+.show-controls.prev,
+.show-controls.next {
+    opacity: 1;
+    visibility: visible;
+}
+
+ul.dropdown {
+    width: 100%;
+    list-style: none;
+    z-index: 1000;
+}
+
+ul.dropdown li {
+    position: relative;
+}
+
+
+ul.dropdown ul {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+}
+
+ul.dropdown ul li {
+    font-weight: normal;
+    background: #f6f6f6;
+    color: #000;
+    border-bottom: 1px solid #ccc;
+}
+
+ul.dropdown ul li {
+    display: block;
+    background: #eee !important;
+    width: auto;
+    max-width: 220px;
+}
+
+ul.dropdown ul li:hover {
+    display: block;
+    background: #ffa494 !important;
+    color: #fff;
 }

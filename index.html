@@ -10,18 +10,27 @@
 
 <body>
     <div class="container">
+        <img class="next" src="./img/next.png">
+        <img class="prev" src="./img/next.png">
         <div id="lyrics-container">
             <div id="lyrics"></div>
         </div>
-        <div class="dropdown">
-            <button class="dropbtn">Songs</button>
-            <div class="dropdown-content" id="song-list">
-                <!-- Songs Buttons Auto Generated Here, do not delete -->
-            </div>
+        <div class="dropdown-wrapper">
+            <ul class="dropdown hide-controls">
+                <li>
+                    <button class="dropbtn">Songs</button>
+                    <ul class="dropdown-content" id="song-list">
+                        <!-- Songs Buttons Auto Generated Here, do not delete -->
+                    </ul>
+                </li>
+            </ul>
         </div>
         <audio id="audio" src="songs/frozen - let it go.mp3" controls></audio>
     </div>
     <script src="script.js"></script>
+    <script type='text/javascript'
+        src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js?ver=1.3.2'></script>
+    <script type="text/javascript" language="javascript" src="js/jquery.dropdown.js"></script>
     <script>activateAudioOnMouseMove();</script>
 </body>
 
