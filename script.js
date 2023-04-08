@@ -1,7 +1,6 @@
 const songUrls = {};
 let songList;
 
-
 fetch('./songs/')
   .then(response => response.text())
   .then(html => {
@@ -129,7 +128,6 @@ function switchSong(songFilename) {
   }
 }
 
-
 let currentSongIndex = 0;
 
 function switchToNextSong() {
@@ -153,6 +151,16 @@ audio.addEventListener('ended', switchToNextSong);
 
 document.querySelector('.next').addEventListener('click', switchToNextSong);
 document.querySelector('.prev').addEventListener('click', switchToPrevSong);
+document.querySelector('.play').addEventListener('click', function() {
+  document.getElementById('audio').play();
+  document.getElementById('pause').style.display = 'block';
+  document.getElementById('play').style.display = 'none';
+});
+document.querySelector('.pause').addEventListener('click', function() {
+  document.getElementById('audio').pause();
+  document.getElementById('play').style.display = 'block';
+  document.getElementById('pause').style.display = 'none';
+});
 
 function convertSrtTimeToSeconds(time) {
   const [hours, minutes, seconds] = time.split(':').map(parseFloat);
@@ -173,7 +181,7 @@ if (prev && next) {
   prev.addEventListener('mouseleave', () => {
     timerId = setTimeout(() => {
       prev.classList.remove('show-controls');
-    }, 3000);
+    }, 5000);
   });
 
   next.addEventListener('mouseenter', () => {
@@ -183,7 +191,17 @@ if (prev && next) {
   next.addEventListener('mouseleave', () => {
     timerId = setTimeout(() => {
       next.classList.remove('show-controls');
-    }, 3000);
+    }, 5000);
+  });
+
+  next.addEventListener('mouseenter', () => {
+    clearTimeout(timerId);
+  });
+
+  next.addEventListener('mouseleave', () => {
+    timerId = setTimeout(() => {
+      next.classList.remove('show-controls');
+    }, 5000);
   });
 }
 
@@ -195,7 +213,7 @@ if (audioWrapper) {
   audioWrapper.addEventListener('mouseleave', () => {
     timerId = setTimeout(() => {
       document.getElementById('audio').controls = false;
-    }, 3000);
+    }, 5000);
   });
 }
 
@@ -206,20 +224,28 @@ function activateAudioOnMouseMove() {
   // Get the prev and next elements
   const prev = document.querySelector('.prev');
   const next = document.querySelector('.next');
-
+  const play = document.querySelector('.play');
+  const pause = document.querySelector('.pause');
+  const shuffler = document.querySelector('.shuffler');
   // Add a mousemove event listener to the body
   document.body.addEventListener('mousemove', function () {
     // Show the audio, prev, and next controls by adding a class to each element
     audio.classList.add('show-controls');
     prev.classList.add('show-controls');
     next.classList.add('show-controls');
+    play.classList.add('show-controls');
+    pause.classList.add('show-controls');
+    shuffler.classList.add('show-controls');
 
     // Set a timeout to hide the audio, prev, and next controls after 3 seconds
     setTimeout(function () {
       audio.classList.remove('show-controls');
       prev.classList.remove('show-controls');
       next.classList.remove('show-controls');
-    }, 3000);
+      play.classList.remove('show-controls');
+      pause.classList.remove('show-controls');
+      shuffler.classList.remove('show-controls');
+    }, 5000);
 
     // Hide the dropdown button by adding a class to the dropdown element
     const dropdown = document.querySelector('.dropdown');
@@ -228,7 +254,7 @@ function activateAudioOnMouseMove() {
     // Set a timeout to show the dropdown button after 3 seconds
     setTimeout(function () {
       dropdown.classList.add('hide-controls');
-    }, 3000);
+    }, 5000);
   });
 }
 
@@ -238,4 +264,29 @@ document.addEventListener('keydown', function (event) {
   } else if (event.key === 'ArrowLeft') {
     switchToPrevSong();
   }
+});
+
+// Shuffle
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+const shuffler = document.getElementById('shuffler');
+
+shuffler.addEventListener('click', () => {
+  shuffle(songList);
+});
+
+// When the play button of audio control is clicked
+audio.addEventListener('play', () => {
+  document.getElementById('pause').style.display = 'block';
+  document.getElementById('play').style.display = 'none';
+});
+
+audio.addEventListener('pause', () => {
+  document.getElementById('play').style.display = 'block';
+  document.getElementById('pause').style.display = 'none';
 });

@@ -89,7 +89,7 @@ audio.show-controls::-webkit-media-controls {
     cursor: pointer;
     position: inherit;
     z-index: 1000;
-    width: 220px;
+    width: 332px;
 }
 
 /* Style the dropdown content (hidden by default) */
@@ -98,7 +98,6 @@ audio.show-controls::-webkit-media-controls {
     position: absolute;
     z-index: 1;
     white-space: nowrap;
-
 }
 
 /* Show the dropdown menu on hover */
@@ -118,6 +117,10 @@ audio.show-controls::-webkit-media-controls {
     width: 100%;
     text-align: left;
     margin-left: -40px;
+    min-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Change the background color of dropdown links on hover */
@@ -143,6 +146,26 @@ audio.show-controls::-webkit-media-controls {
     transition: opacity 0.5s ease-in-out;
 }
 
+.shuffler {
+    position: absolute;
+    width: 60px;
+    cursor: pointer;
+    z-index: 2;
+    top: 20;
+    right: 20;
+}
+
+.pause {
+    display: none;
+}
+
+.pause, .play {
+    position: absolute;
+    width: 60px;
+    cursor: pointer;
+    z-index: 2;
+}
+
 .next {
     position: absolute;
     right: 20;
@@ -162,7 +185,7 @@ audio.show-controls::-webkit-media-controls {
 
 /* Hide the prev and next buttons by default */
 .prev,
-.next {
+.next, .play, .pause, .shuffler {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -170,21 +193,24 @@ audio.show-controls::-webkit-media-controls {
 
 /* Show the prev and next buttons when their parent element is hovered */
 #audio-wrapper:hover .prev,
-#audio-wrapper:hover .next {
+#audio-wrapper:hover .next, #audio-wrapper:hover .play,
+#audio-wrapper:hover .pause, #audio-wrapper:hover .shuffler {
     opacity: 1;
     visibility: visible;
 }
 
 /* Hide the prev and next buttons after 3 seconds */
 .hide-controls.prev,
-.hide-controls.next {
+.hide-controls.next, .hide-controls.play,
+.hide-controls.pause, .hide-controls.shuffler {
     opacity: 0;
     visibility: hidden;
 }
 
 /* Show the prev and next buttons when their parent element is hovered */
 .show-controls.prev,
-.show-controls.next {
+.show-controls.next, .show-controls.play,
+.show-controls.pause, .show-controls.shuffler {
     opacity: 1;
     visibility: visible;
 }
@@ -193,6 +219,7 @@ ul.dropdown {
     width: 100%;
     list-style: none;
     z-index: 1000;
+    width: fit-content;
 }
 
 ul.dropdown li {
@@ -219,7 +246,7 @@ ul.dropdown ul li {
     display: block;
     background: #eee !important;
     width: auto;
-    max-width: 220px;
+    max-width: 300px;
 }
 
 ul.dropdown ul li:hover {
@@ -227,3 +254,29 @@ ul.dropdown ul li:hover {
     background: #ffa494 !important;
     color: #fff;
 }
+
+.tooltip {
+    position: relative;
+  }
+  
+  .tooltip::before {
+    content: "This is a tooltip";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+  }
+  
+  .tooltip:hover::before {
+    visibility: visible;
+    opacity: 1;
+  }
