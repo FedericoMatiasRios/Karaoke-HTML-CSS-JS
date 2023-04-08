@@ -167,55 +167,7 @@ function convertSrtTimeToSeconds(time) {
   return hours * 3600 + minutes * 60 + seconds;
 }
 
-const audioWrapper = document.getElementById('audio-wrapper');
-let timerId;
 
-const prev = document.querySelector('.prev');
-const next = document.querySelector('.next');
-
-if (prev && next) {
-  prev.addEventListener('mouseenter', () => {
-    clearTimeout(timerId);
-  });
-
-  prev.addEventListener('mouseleave', () => {
-    timerId = setTimeout(() => {
-      prev.classList.remove('show-controls');
-    }, 5000);
-  });
-
-  next.addEventListener('mouseenter', () => {
-    clearTimeout(timerId);
-  });
-
-  next.addEventListener('mouseleave', () => {
-    timerId = setTimeout(() => {
-      next.classList.remove('show-controls');
-    }, 5000);
-  });
-
-  next.addEventListener('mouseenter', () => {
-    clearTimeout(timerId);
-  });
-
-  next.addEventListener('mouseleave', () => {
-    timerId = setTimeout(() => {
-      next.classList.remove('show-controls');
-    }, 5000);
-  });
-}
-
-if (audioWrapper) {
-  audioWrapper.addEventListener('mouseenter', () => {
-    clearTimeout(timerId);
-  });
-
-  audioWrapper.addEventListener('mouseleave', () => {
-    timerId = setTimeout(() => {
-      document.getElementById('audio').controls = false;
-    }, 5000);
-  });
-}
 
 function activateAudioOnMouseMove() {
   // Get the audio element
@@ -227,34 +179,30 @@ function activateAudioOnMouseMove() {
   const play = document.querySelector('.play');
   const pause = document.querySelector('.pause');
   const shuffler = document.querySelector('.shuffler');
-  // Add a mousemove event listener to the body
-  document.body.addEventListener('mousemove', function () {
-    // Show the audio, prev, and next controls by adding a class to each element
+  const dropdown = document.querySelector('.dropdown');
+  
+
+  let timeoutId;
+
+  document.body.addEventListener('mousemove', function() {
     audio.classList.add('show-controls');
     prev.classList.add('show-controls');
     next.classList.add('show-controls');
     play.classList.add('show-controls');
     pause.classList.add('show-controls');
     shuffler.classList.add('show-controls');
-
-    // Set a timeout to hide the audio, prev, and next controls after 3 seconds
-    setTimeout(function () {
+    dropdown.classList.remove('hide-controls');
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(function() {
+      // Do something when the mouse stops moving
       audio.classList.remove('show-controls');
       prev.classList.remove('show-controls');
       next.classList.remove('show-controls');
       play.classList.remove('show-controls');
       pause.classList.remove('show-controls');
       shuffler.classList.remove('show-controls');
-    }, 5000);
-
-    // Hide the dropdown button by adding a class to the dropdown element
-    const dropdown = document.querySelector('.dropdown');
-    dropdown.classList.remove('hide-controls');
-
-    // Set a timeout to show the dropdown button after 3 seconds
-    setTimeout(function () {
       dropdown.classList.add('hide-controls');
-    }, 5000);
+    }, 3000); // Change the timeout value as needed
   });
 }
 
